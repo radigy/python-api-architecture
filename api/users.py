@@ -8,4 +8,3 @@ class UsersAPI:
 
     def get_users(self):
         return self.client.get("/users")
-    
