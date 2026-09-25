@@ -1,11 +1,10 @@
-import requests
-
-from config import BASE_URL
-
+from client import APIClient
 
 def test_get_post():
-    response = requests.get(
-        f"{BASE_URL}/posts/1"
+    client = APIClient()
+
+    response = client.get(
+        "/posts/1"
     )
 
     assert response.status_code == 200
