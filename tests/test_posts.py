@@ -1,9 +1,7 @@
-from client import APIClient
 
-def test_get_post():
-    client = APIClient()
+def test_get_post(api_client):
 
-    response = client.get(
+    response = api_client.get(
         "/posts/1"
     )
 
