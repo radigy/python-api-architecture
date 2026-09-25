@@ -1,9 +1,7 @@
 
-def test_get_post(api_client):
+def test_get_post(posts_api):
 
-    response = api_client.get(
-        "/posts/1"
-    )
+    response = posts_api.get_post(1)
 
     assert response.status_code == 200
 
