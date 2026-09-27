@@ -56,3 +56,17 @@ def test_create_post(posts_api):
     response = posts_api.create_post(NEW_POST)
 
     assert response.status_code == 201
+
+
+def test_get_posts_by_user(posts_api):
+
+    response = posts_api.get_posts(userId=1)
+
+    assert response.status_code == 200
+
+    posts = response.json()
+
+    assert len(posts) > 0
+
+    for post in posts:
+        assert post["userId"] == 1
