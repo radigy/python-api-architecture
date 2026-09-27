@@ -57,6 +57,13 @@ def test_create_post(posts_api):
 
     assert response.status_code == 201
 
+    body = response.json()
+
+    assert body["title"] == NEW_POST["title"]
+    assert body["body"] == NEW_POST["body"]
+    assert body["userId"] == NEW_POST["userId"]
+    assert "id" in body
+
 
 def test_get_posts_by_user(posts_api):
 
@@ -70,3 +77,47 @@ def test_get_posts_by_user(posts_api):
 
     for post in posts:
         assert post["userId"] == 1
+
+
+def test_update_post(posts_api):
+
+    payload = {
+        "id": 1,
+        "title": "Updated title",
+        "body": "Updated body",
+        "userId": 1
+    }
+
+    response = posts_api.update_post(1, payload)
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["id"] == 1
+    assert body["title"] == "Updated title"
+    assert body["body"] == "Updated body"
+    assert body["userId"] == 1
+
+
+def test_patch_post(posts_api):
+
+    payload = {
+        "title": "New title"
+    }
+
+    response = posts_api.patch_post(1, payload)
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["id"] == 1
+    assert body["title"] == "New title"
+
+
+def test_delete_post(posts_api):
+
+    response = posts_api.delete_post(1)
+
+    assert response.status_code == 200
