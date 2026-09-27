@@ -16,3 +16,4 @@ class PostsAPI:
     def update_post(self, post_id, payload):
         return self.client.put(f"/posts/{post_id}", json=payload)
 
+
