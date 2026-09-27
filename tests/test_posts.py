@@ -121,3 +121,19 @@ def test_delete_post(posts_api):
     response = posts_api.delete_post(1)
 
     assert response.status_code == 200
+
+
+def test_get_post_comments(posts_api):
+
+    response = posts_api.get_post_comments(1)
+
+    assert response.status_code == 200
+
+    comments = response.json()
+
+    assert isinstance(comments, list)
+
+    for comment in comments:
+        assert comment["postId"] == 1
+
+
