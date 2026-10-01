@@ -1,10 +1,8 @@
-from http.client import responses
 
 import pytest
 
 from conftest import posts_api
-from data.posts import NEW_POST, ANOTHER_POST
-from factories.post_factory import create_post_payload, create_post
+from factories.post_factory import create_post
 
 
 @pytest.mark.parametrize(
@@ -84,9 +82,9 @@ def test_create_multiple_posts(posts_api):
 
         body = response.json()
 
-        assert body["title"] == post.user_id
-        assert body["body"] == post.title
-        assert body["userId"] == post.body
+        assert body["title"] == post.title
+        assert body["body"] == post.body
+        assert body["userId"] == post.user_id
         assert "id" in body
 
 @pytest.mark.parametrize(
@@ -94,15 +92,15 @@ def test_create_multiple_posts(posts_api):
     [1, 2, 5]
 )
 def test_create_post_for_different_users(posts_api, user_id):
-    payload = create_post_payload(user_id=user_id)
+    post = create_post(user_id=user_id)
 
-    response = posts_api.create_post(payload)
+    response = posts_api.create_post(post.to_payload())
 
     assert response.status_code == 201
 
     body = response.json()
 
-    assert body["userId"] == user_id
+    assert body["userId"] == post.user_id
 
 
 @pytest.mark.parametrize(
@@ -125,7 +123,6 @@ def test_get_posts_by_user(posts_api, user_id):
 
 def test_update_post(posts_api):
 
-    payload = crea
     payload = {
         "id": 1,
         "title": "Updated title",
