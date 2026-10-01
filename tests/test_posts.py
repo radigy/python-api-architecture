@@ -73,9 +73,13 @@ def test_create_post(posts_api, payload):
     assert "id" in body
 
 
-def test_get_posts_by_user(posts_api):
+@pytest.mark.parametrize(
+    "user_id",
+    [1,2,5]
+)
+def test_get_posts_by_user(posts_api, user_id):
 
-    response = posts_api.get_posts(userId=1)
+    response = posts_api.get_posts(userId=user_id)
 
     assert response.status_code == 200
 
@@ -84,7 +88,7 @@ def test_get_posts_by_user(posts_api):
     assert len(posts) > 0
 
     for post in posts:
-        assert post["userId"] == 1
+        assert post["userId"] == user_id
 
 
 def test_update_post(posts_api):
