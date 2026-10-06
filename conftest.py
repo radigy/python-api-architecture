@@ -16,4 +16,5 @@ def posts_api(api_client):
 
 @pytest.fixture
 def post():
-    return create_post()
+    post =  create_post()
+    yield post
