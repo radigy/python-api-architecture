@@ -117,6 +117,14 @@ def test_create_post(posts_api, post):
     assert body["body"] == post.body
     assert "id" in body
 
+def test_created_post_contains_correct_data(created_post, post):
+
+    assert created_post["userId"] == post.user_id
+    assert created_post["title"] == post.title
+    assert created_post["body"] == post.body
+    assert "id" in created_post
+
+
 @pytest.mark.parametrize(
     "user_id",
     [1,2,5]

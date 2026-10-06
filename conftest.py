@@ -18,3 +18,12 @@ def posts_api(api_client):
 def post():
     post =  create_post()
     yield post
+
+@pytest.fixture
+def created_post(posts_api, post):
+    response = posts_api.create_post(post.to_payload())
+
+    assert response.status_code == 201
+
+    return response.json()
+
