@@ -102,6 +102,20 @@ def test_create_post_for_different_users(posts_api, user_id):
 
     assert body["userId"] == post.user_id
 
+def test_create_post(posts_api, post):
+
+    response = posts_api.create_post(
+        post.to_payload()
+    )
+
+    assert response.status_code == 201
+
+    body = response.json()
+
+    assert body["userId"] == post.user_id
+    assert body["title"] == post.title
+    assert body["body"] == post.body
+    assert "id" in body
 
 @pytest.mark.parametrize(
     "user_id",
