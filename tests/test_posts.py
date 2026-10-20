@@ -117,12 +117,35 @@ def test_create_post(posts_api, post):
     assert body["body"] == post.body
     assert "id" in body
 
-def test_created_post_contains_correct_data(created_post, post):
+def test_created_post_contains_correct_data(created_post):
 
-    assert created_post["userId"] == post.user_id
-    assert created_post["title"] == post.title
-    assert created_post["body"] == post.body
-    assert "id" in created_post
+    created = created_post()
+
+    assert created["userId"] == 1
+    assert created["title"] == "Test title"
+    assert created["body"] == "Test body"
+    assert "id" in created
+
+
+def test_create_post_for_specific_user(created_post):
+
+    post = created_post(user_id=5)
+
+    assert post["userId"] == 5
+    assert post["title"] == "Test title"
+    assert post["body"] == "Test body"
+
+def test_create_custom_post(created_post):
+
+    post = created_post(
+        user_id=5,
+        title="My special post",
+        body="This is a special test"
+    )
+
+    assert post["userId"] == 5
+    assert post["title"] == "My special post"
+    assert post["body"] == "This is a special test"
 
 
 @pytest.mark.parametrize(

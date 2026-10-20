@@ -20,10 +20,24 @@ def post():
     yield post
 
 @pytest.fixture
-def created_post(posts_api, post):
-    response = posts_api.create_post(post.to_payload())
+def created_post(posts_api):
 
-    assert response.status_code == 201
+    def _create_post(
+            user_id=1,
+            title="Test title",
+            body="Test body"
+    ):
 
-    return response.json()
+        post = create_post(
+            user_id = user_id,
+            title=title,
+            body=body
+        )
 
+        response = posts_api.create_post(post.to_payload())
+
+        assert response.status_code == 201
+
+        return response.json()
+
+    return _create_post
